@@ -3,34 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UV-Compatible" content="ie=edge">
+    <script src="../assets/js/main.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
     <title>Address Information</title>
 </head>
-<body>
-    <div class="container">
-        <div class="address_line">
-            <label id="addressLine"><b>Address</b></label>
-            <input type="text" placeholder="Address Line" name="address_line" required>
+<body onload="readfromlocalstoragetoaddress()">
+    <form class="form">
+        <div class="container">
+            <div class="address-line">
+                <label>Address</label>
+                <input class="addressLine" id="addressLine" type="text" placeholder="Address Line" name="address_line" required>
+            </div>
+            <div class="house-no">
+                <label>House Number</label>
+                <input class="houseNo" id="houseNo" type="text" placeholder="House Number" name="house_no" required>
+            </div>
+            <div class="zip-code">
+                <label>Zip Code</label>
+                <input class="zipCode" id="zipCode" type="text" placeholder="Zip Code" name="zip-code" required>
+            </div>
+            <div class="city">
+                <label>City</label>
+                <input type="text" id="city" placeholder="City" name="city" required>
+            </div>
+            <div class="btn-next-to_payment">
+    <!--            <button type="button">Next</button>-->
+<!--                <a href="/wunderfleet-registration/view/payment_info.html">Next</a>-->
+                <button class="btn" id="btn_next_to_payment" type="button" onclick="writetolocalstoragefromaddress()">Next</button>
+            </div>
+<!--            <div class="btn-back-to-address">-->
+<!--    &lt;!&ndash;            <button type="button">Back</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                <a href="/wunderfleet-registration/view/personal_info.html">Back</a>&ndash;&gt;-->
+<!--                <button id="btn_prev_to_personal" type="button" onclick="writetolocalstorage()">Back</button>-->
+<!--            </div>-->
         </div>
-        <div class="house_no">
-            <label id="houseNo"><b>House Number</b></label>
-            <input type="text" placeholder="House Number" name="house_no" required>
-        </div>
-        <div class="zip-code">
-            <label id="zipCode"><b>Zip Code</b></label>
-            <input type="text" placeholder="Zip Code" name="zip-code" required>
-        </div>
-        <div class="city">
-            <label id="city"><b>City</b></label>
-            <input type="text" placeholder="City" name="city" required>
-        </div>
-        <div class="btn_next_to_payment">
-<!--            <button type="button">Next</button>-->
-            <a href="/wunderfleet-registration/view/payment_info.html">Next</a>
-        </div>
-        <div class="btn_back_to_address">
-<!--            <button type="button">Back</button>-->
-            <a href="/wunderfleet-registration/view/personal_info.html">Back</a>
-        </div>
-    </div>
+    </form>
 </body>
 </html>

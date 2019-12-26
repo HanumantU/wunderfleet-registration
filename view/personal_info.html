@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UV-Compatible" content="ie=edge">
     <script src="../assets/js/main.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/main.css">
     <title>Registration Page</title>
 </head>
-<body onload="readfromlocalstorage()">
-    <form>
+<body onload="readfromlocalstoragetopersonal()">
+    <form class="form" id="form-personal">
         <div class="container">
-            <div class="first_name">
-                <label><b>First Name</b></label>
-                <input id="firstName" type="text" placeholder="First Name" name="first_name" required>
+            <div class="first-name">
+                <label>First Name</label>
+                <input class="input-text" id="firstName" type="text" placeholder="First Name" name="first_name" required>
             </div>
-            <div class="last_name">
-                <label><b>Last Name</b></label>
-                <input id="lastName" type="text" placeholder="Last Name" name="last_name" required>
+            <div class="last-name">
+                <label>Last Name</label>
+                <input class="input-text" id="lastName" type="text" placeholder="Last Name" name="last_name" required>
             </div>
             <div class="telephone">
-                <label><b>Telephone</b></label>
-                <input id="telephone" type="text" placeholder="Telephone" name="telephone" required>
+                <label>Telephone</label>
+                <input class="input-text" id="telephone" type="text" placeholder="Telephone" name="telephone" required>
             </div>
-            <div class="btn_next_to_address">
-                <button id="btn_next_to_address" type="button" onclick="writetolocalstorage()">Next</button>
+            <div class=" btn-next-to-address">
+                <button class="btn" id="btn_next_to_address" type="button" onclick="writetolocalstoragefrompersonal()">Next</button>
     <!--            <a href="/wunderfleet-registration/view/address_info.html">Next</a>-->
 <!--                <button onclick="writetolocalstorage()">Next</button>-->
             </div>
