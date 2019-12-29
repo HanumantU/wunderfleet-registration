@@ -8,7 +8,7 @@
     <title>Payment Information</title>
 </head>
 <body onload="readfromlocalstoragetopayment()">
-    <form class="form" method="POST">
+    <form class="form" method="POST" action="../controller/UserController.php">
         <div class="container">
             <div class="owner-name">
                 <label>Owner Name</label>
@@ -18,12 +18,9 @@
                 <label>IBAN Number</label>
                 <input id="ibanNo" type="text" placeholder="IBAN Number" name="iban_no" required>
             </div>
-            <div class="btn-next-to-payment">
-                <button type="sumit">Next</button>
-            </div>
             <div class="btn_to_save">
 <!--                <a href="/wunderfleet-registration/view/address_info.html">Back</a>-->
-                <button class="btn" id="btn_to_save" type="submit" onclick="writetolocalstoragefrompayment()">Next</button>
+                <button class="btn" id="btn_to_save" type="submit">Next</button>
             </div>
         </div>
     </form>

@@ -59,24 +59,27 @@ function writetolocalstoragefrompayment() {
         var owner_name = document.getElementById("ownerName").value
         var iban_no = document.getElementById("ibanNo").value
 
+        console.log("Inside js function...");
+
         var payment_info_json = {"ownerName": owner_name, "ibanNo": iban_no}
         console.log(JSON.stringify(payment_info_json))
         localStorage.setItem("payment_info",  JSON.stringify(payment_info_json));
         window.location = "/wunderfleet-registration/view/payment_info.html";
 
-        // make a post request to backend using ajax call
-        $.ajax({
-            url: "/wunderfleet-registration/controller/userController.php",
-            type: "POST",
-            data: payment_info_json,
-            success: function(data, textStatus, jqXHR) {
-                alert('Success!');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('Error occurred!');
-            }
 
-        });
+        // make a post request to backend using ajax call
+        // $.ajax({
+        //     url: "/wunderfleet-registration/controller/UserController.php",
+        //     type: "POST",
+        //     data: payment_info_json,
+        //     success: function(data, textStatus, jqXHR) {
+        //         alert('Success!');
+        //     },
+        //     error: function(jqXHR, textStatus, errorThrown) {
+        //         alert('Error occurred!');
+        //     }
+        //
+        // });
 
     }
 }
@@ -88,3 +91,8 @@ function readfromlocalstoragetopayment() {
         document.getElementById("ibanNo").value = payment_info.ibanNo
     }
 }
+
+document.getElementById('btn_to_save').onsubmit = function() {
+    console.log("asdasdasdasdsadasd");
+    return false;
+};

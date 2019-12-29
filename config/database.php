@@ -10,7 +10,7 @@ class Database {
         $this->conn = null;
 
         try {
-            $this->conn = new PDO("mysql:host=".$this->host.";dbname=".$this->db_name, $this->username, $this->password);
+            $this->conn = new \PDO("mysql:host=".$this->host.";dbname=".$this->db_name, $this->username, $this->password);
             $this->conn->exec("set name utf8");
         }catch (PDOException $exception) {
             echo "Connection Error ".$exception->getMessage();

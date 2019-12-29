@@ -1,7 +1,7 @@
 <?php
+require '../config/database.php';
 class UserModel {
     private $conn;
-
     public $first_name;
     public $last_name;
     public $telephone;
@@ -9,6 +9,11 @@ class UserModel {
     public $house_no;
     public $zip_code;
     public $city;
+
+    public function __construct()
+    {
+        $this->conn = (new Database())->getConnection();
+    }
 
     /**
      * @return mixed
@@ -120,5 +125,46 @@ class UserModel {
     public function setCity($city)
     {
         $this->city = $city;
+    }
+
+    public function insert($input) {
+        $statement = "
+            INSERT INTO user
+                (first_name, last_name, telphone, created_at)
+            VALUES
+                (:firstname, :lastname, :telphone, :created_at);
+        ";
+
+        try {
+            $statement = $this->conn->prepare($statement);
+            $statement->execute(array(
+                'firstname' => $input['first_name'],
+                'lastname'  => $input['last_name'],
+                'telphone' => $input['telephone'],
+                'created_at' => date("Y-m-d H:m:s")
+            ));
+            return $statement->rowCount();
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    public function getUserId()
+    {
+        $statement = "
+            SELECT 
+                use_id
+            FROM
+                user
+            ORDER BY user_id LIMIT 1
+        ";
+
+        try {
+            $statement = $this->conn->prepare($statement);
+            $statement->execute();
+            return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
     }
 }
