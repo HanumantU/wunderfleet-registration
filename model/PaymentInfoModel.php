@@ -41,31 +41,24 @@ class PaymentInfoModel {
         $this->owner_name = $owner_name;
     }
 
-    public function insert($input, $id) {
+    public function insert($input, $user_id) 
+    {
         $statement = "
             INSERT INTO payment_info
-                (payment_info_id, account_owner, iban_no, user_id, created_at)
+                (account_owner, iban_no, user_id, created_at)
             VALUES
-                (:id, :accountOwner, :ibanNo, :userId, :created_at);
+                (:accountOwner, :ibanNo, :userId, :created_at);
         ";
-        echo $statement;
-        echo "<pre>";
-        print_r($input);
-        echo $id;
-//        exit;
+
         try {
             $statement = $this->conn->prepare($statement);
-            $status = $statement->execute(array(
-                'id' => "default",
-                'accountOwner' => $input['owner_name'],
-                'ibanNo'  => $input['iban_no'],
-                'userId' => $id,
-                'created_at' => date("Y-m-d H:m:s")
+            $statement->execute(array(
+                'accountOwner' => $input['ownerName'],
+                'ibanNo'  => $input['ibanNo'],
+                'userId' => $user_id,
+                'created_at' => date("Y-m-d H:m:s"),
             ));
-            var_dump($statement->rowCount());
-            var_dump($status);
-            exit;
-            return $statement->rowCount();
+            return $this->conn->lastInsertId();
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }

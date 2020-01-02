@@ -11,7 +11,7 @@ class UserModel {
     public $city;
 
     public function __construct()
-    {
+    {   
         $this->conn = (new Database())->getConnection();
     }
 
@@ -127,23 +127,28 @@ class UserModel {
         $this->city = $city;
     }
 
-    public function insert($input) {
+    public function insert($input) 
+    {
         $statement = "
-            INSERT INTO user
-                (first_name, last_name, telphone, created_at)
+            INSERT INTO users
+                (first_name, last_name, telephone, address_line, house_no, zip_code, city, created_at)
             VALUES
-                (:firstname, :lastname, :telphone, :created_at);
+                (:firstName, :lastName, :telephone, :addressLine, :houseNo, :zipCode, :city, :created_at);
         ";
 
         try {
             $statement = $this->conn->prepare($statement);
             $statement->execute(array(
-                'firstname' => $input['first_name'],
-                'lastname'  => $input['last_name'],
-                'telphone' => $input['telephone'],
-                'created_at' => date("Y-m-d H:m:s")
+                'firstName' => $input['personal_info']['firstName'],
+                'lastName'  => $input['personal_info']['lastName'],
+                'telephone' => $input['personal_info']['telephone'],
+                'addressLine' => $input['address_info']['addressLine'],
+                'houseNo' => $input['address_info']['houseNo'],
+                'zipCode' => $input['address_info']['zipCode'],
+                'city' => $input['address_info']['city'],
+                'created_at' => date("Y-m-d H:m:s"),
             ));
-            return $statement->rowCount();
+            return $this->conn->lastInsertId();
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
@@ -153,9 +158,9 @@ class UserModel {
     {
         $statement = "
             SELECT 
-                use_id
+                user_id
             FROM
-                user
+                users
             ORDER BY user_id LIMIT 1
         ";
 

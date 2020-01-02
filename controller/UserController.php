@@ -19,22 +19,9 @@ class UserController {
     public function process_request()
     {
         switch ($this->requestMethod) {
-//            case 'GET':
-//                if ($this->userId) {
-//                    $response = $this->getUser($this->userId);
-//                } else {
-//                    $response = $this->getAllUsers();
-//                };
-//                break;
             case 'POST':
                 $response = $this->createUserFromRequest();
                 break;
-//            case 'PUT':
-//                $response = $this->updateUserFromRequest($this->userId);
-//                break;
-//            case 'DELETE':
-//                $response = $this->deleteUser($this->userId);
-//                break;
             default:
                 $response = $this->notFoundResponse();
                 break;
@@ -47,36 +34,54 @@ class UserController {
 
     public function createUserFromRequest()
     {
-        $input = array();
-//        print_r($_POST);
-//        exit;
-//        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-        $input = $_POST;
-//        echo $input;
-//        exit;
-        if (! $this->validatePerson($input)) {
+        #validating Personal information
+        if (! $this->validatePerson($_POST['personal_info'])) {
             return $this->unprocessableEntityResponse();
         }
-        #getting user id then inserting to payment
-        print_r($this->userModel->getUserId());
-        exit;
+        #validating Address information
+        if (! $this->validateAddress($_POST['address_info'])) {
+            return $this->unprocessableEntityResponse();
+        }
+        
         #firstly insert user data to user table and get method should return newly generated user_id which pass to payment_info controller.
-//        $user_id = $this->userModel->insert($input);
+        $user_id = $this->userModel->insert($_POST);
+        
         #passing user to Payment info controller
-//        $this->paymentModel->insert($input, "1");
+        $this->paymentModel->insert($_POST['payment_info'], $user_id);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
-        $response['body'] = null;
-        print_r($response);
+        $response['body'] = json_encode([
+            'user_id' => $user_id
+        ]);
         return $response;
     }
 
     private function validatePerson($input)
     {
-        if (! isset($input['owner_name'])) {
+        if (! isset($input['firstName'])) {
             return false;
         }
-        if (! isset($input['iban_no'])) {
+        if (! isset($input['lastName'])) {
+            return false;
+        }
+        if (! isset($input['telephone'])) {
+            return false;
+        }
+        return true;
+    }
+
+    private function validateAddress($input)
+    {
+        if (! isset($input['addressLine'])) {
+            return false;
+        }
+        if (! isset($input['houseNo'])) {
+            return false;
+        }
+        if (! isset($input['zipCode'])) {
+            return false;
+        }
+        if (! isset($input['city'])) {
             return false;
         }
         return true;
