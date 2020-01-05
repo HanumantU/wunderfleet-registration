@@ -101,15 +101,32 @@ function makeApiCall(account_details, user_id) {
     $.ajax({
         url: "https://37f32cl571.execute-api.eu-central-1.amazonaws.com/default/wunderfleet-recruiting-backend-dev-save-payment-data",
         type: "POST",
-        data: {customerid: user_id, iban: account_details['ibanNo'], owner: account_details['ownerName']},
+        data: {customerId: user_id, iban: account_details['ibanNo'], owner: account_details['ownerName']},
+        // data: {customerId: "1", iban: "DE8234", owner: "Max Mustermann"},
         success: function(data, textStatus, jqXHR) {
             console.log(data);
-            
-            //calling external api on success
-            // makeApiCall(form_data['payment_info'], JSON.parse(data).user_id);
-         },
+            alert(data.paymentDataId);
+            //clearing localstorage
+            localStorage.removeItem('personal_info');
+            localStorage.removeItem('address_info');
+            localStorage.removeItem('payment_info');
+        },
         error: function(jqXHR, textStatus, errorThrown) {
-            alert('Error occurred!');
+            alert("Something went wrong while sending data to api endpoint.");
+        }
+    });
+}
+
+function savePaymentId(paymentDataId) {
+    $.ajax({
+        url: "/wunderfleet-registration/controller/UserController.php",
+        type: "POST",
+        data: {paymentDataId: paymentDataId},
+        success: function(data, textStatus, jqXHR) {
+            alert("Data Save successfully.")
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("Something went wrong while sending data to api endpoint.");
         }
     });
 }

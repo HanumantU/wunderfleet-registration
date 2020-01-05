@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2019 at 05:32 AM
+-- Generation Time: Jan 05, 2020 at 10:36 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.1.21
 
@@ -25,44 +25,34 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `paymant_info`
+-- Table structure for table `payment_info`
 --
 
-CREATE TABLE `paymant_info` (
-  `paymant_info_id` int(11) NOT NULL,
-  `account-owner` varchar(50) NOT NULL,
+CREATE TABLE `payment_info` (
+  `payment_info_id` int(11) NOT NULL,
+  `account_owner` varchar(50) NOT NULL,
   `iban_no` varchar(34) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `telephone` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_address`
---
-
-CREATE TABLE `user_address` (
-  `user_address_id` int(11) NOT NULL,
   `address_line` text NOT NULL,
   `house_no` varchar(15) NOT NULL,
   `zip_code` varchar(20) NOT NULL,
   `city` text NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `payment_data_id` varchar(500) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -71,40 +61,43 @@ CREATE TABLE `user_address` (
 --
 
 --
--- Indexes for table `paymant_info`
+-- Indexes for table `payment_info`
 --
-ALTER TABLE `paymant_info`
-  ADD PRIMARY KEY (`paymant_info_id`),
-  ADD KEY `pymant_info_fk_2` (`user_id`);
+ALTER TABLE `payment_info`
+  ADD PRIMARY KEY (`payment_info_id`),
+  ADD KEY `user_id_fk1` (`user_id`);
 
 --
--- Indexes for table `user`
+-- Indexes for table `users`
 --
-ALTER TABLE `user`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indexes for table `user_address`
+-- AUTO_INCREMENT for dumped tables
 --
-ALTER TABLE `user_address`
-  ADD PRIMARY KEY (`user_address_id`),
-  ADD KEY `user_address_fk_1` (`user_id`);
+
+--
+-- AUTO_INCREMENT for table `payment_info`
+--
+ALTER TABLE `payment_info`
+  MODIFY `payment_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `paymant_info`
+-- Constraints for table `payment_info`
 --
-ALTER TABLE `paymant_info`
-  ADD CONSTRAINT `pymant_info_fk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
---
--- Constraints for table `user_address`
---
-ALTER TABLE `user_address`
-  ADD CONSTRAINT `user_address_fk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `payment_info`
+  ADD CONSTRAINT `user_id_fk1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

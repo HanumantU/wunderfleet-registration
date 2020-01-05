@@ -1,17 +1,22 @@
 <?php
 namespace app\controller;
+use app\Service\PaymentInfoService;
+
 require '../model/UserModel.php';
 require '../model/PaymentInfoModel.php';
-//use app\model;
+require '../service/PaymentInfoService.php';
+
 class UserController {
     public $requestMethod = null;
     protected $userModel = null;
     protected $paymentModel = null;
+    protected $paymentService = null;
 
     function __construct()
     {
         $this->requestMethod = $_SERVER["REQUEST_METHOD"];
         $this->paymentModel = new \PaymentInfoModel();
+        $this->paymentService = new PaymentInfoService();
         $this->userModel = new \UserModel();
         $this->process_request();
     }
@@ -48,6 +53,10 @@ class UserController {
         
         #passing user to Payment info controller
         $this->paymentModel->insert($_POST['payment_info'], $user_id);
+
+        #NOT FOLLOWING BELOW APPROACH instead using javascript to make api call
+        #passing user id to payment service
+        #$this->paymentService->externalApiCall($_POST['payment_info'], $user_id);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
         $response['body'] = json_encode([
@@ -103,7 +112,4 @@ class UserController {
         return $response;
     }
 }
-
-// pass the request method and user ID to the PersonController and process the HTTP request:
-$controller = new UserController();
-//$controller->processRequest();
+$userInstance = new UserController();
