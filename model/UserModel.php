@@ -1,5 +1,5 @@
 <?php
-require '../config/database.php';
+require '../config/Database.php';
 class UserModel {
     private $conn;
     public $first_name;
